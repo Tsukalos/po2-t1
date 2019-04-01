@@ -1,9 +1,11 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 import javax.swing.*;
 
 import com.udojava.evalex.*;
+import com.udojava.evalex.Expression.ExpressionException;
 
 public class Uniforme extends BaseFrame implements ActionListener {
 
@@ -49,10 +51,26 @@ public class Uniforme extends BaseFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         StringBuilder out = new StringBuilder();
-        out.append("AAAAAAA");
+        double a,b,d = 0,xk;
+        double x = 0;
+        Expression f = new Expression(txFunc.getText());
 
+        try{
+            x = Double.parseDouble(txA.getText());
+            b = Double.parseDouble(txB.getText());
+            d = Double.parseDouble(txD.getText());
+            f.eval();
+        }catch(NumberFormatException err){
+            outputArea.setText("Digite valores válidos (numéricos) nos campos apropriados!");
+            return;
+        }catch(ExpressionException err){
+            outputArea.setText("Digite uma função válida!!");
+            return;
+        }
+        xk = x + d;
+        f.with("x", new BigDecimal(xk));
+        out.append(f.eval());
 
-        outputArea.setText(out.toString());
     }
 
 

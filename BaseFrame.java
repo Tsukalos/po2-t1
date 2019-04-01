@@ -22,7 +22,7 @@ class BaseFrame extends JFrame {
         middle.setLayout(new BoxLayout(middle, BoxLayout.X_AXIS));
         outputArea = new JTextArea();
         outputArea.setEditable(false);
-        outputArea.setText("aaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        outputArea.setText("Output:\n");
         outputArea.setLineWrap(true);
         outputArea.setWrapStyleWord(true);
         JScrollPane scroll = new JScrollPane(outputArea);
