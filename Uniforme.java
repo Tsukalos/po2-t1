@@ -59,6 +59,7 @@ public class Uniforme extends BaseFrame implements ActionListener {
             x = Double.parseDouble(txA.getText());
             b = Double.parseDouble(txB.getText());
             d = Double.parseDouble(txD.getText());
+            f.with("x", new BigDecimal(b));
             f.eval();
         }catch(NumberFormatException err){
             outputArea.setText("Digite valores válidos (numéricos) nos campos apropriados!");
@@ -67,12 +68,10 @@ public class Uniforme extends BaseFrame implements ActionListener {
             outputArea.setText("Digite uma função válida!!");
             return;
         }
-        xk = x + d;
+        xk = x;
         f.with("x", new BigDecimal(xk));
         out.append(f.eval());
-
+        outputArea.setText(out.toString());
     }
-
-
 }
 

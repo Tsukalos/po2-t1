@@ -40,6 +40,6 @@ class BaseFrame extends JFrame {
         add(middle);
         add(down);
         setSize(400, 500);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        // setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }
