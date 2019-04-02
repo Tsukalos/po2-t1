@@ -12,7 +12,7 @@ public class Menu extends JFrame {
     Menu() {
         super("POII - T1");
 
-        setLayout(new GridLayout(6, 1, 5, 5));
+        setLayout(new GridLayout(7, 1, 5, 5));
 
         setButtons();
 
@@ -31,6 +31,7 @@ public class Menu extends JFrame {
         JButton bBuscaFibonacci = new JButton("Busca de Fibonacci");
         JButton bBissecao = new JButton("Método da Bisseção");
         JButton bNewton = new JButton("Método de Newton");
+        JButton bInfo = new JButton("Informações do Projeto");
         bBuscaUniforme.addActionListener(new ActionListener() {
 
             @Override
@@ -73,12 +74,19 @@ public class Menu extends JFrame {
                 System.out.print("a");
             }
         });
+        bInfo.addActionListener(new ActionListener(){
+        
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                System.out.print("a");
+            }
+        });
         add(bBuscaUniforme);
         add(bBuscaDicotomica);
         add(bSecaoAurea);
         add(bBuscaFibonacci);
         add(bBissecao);
         add(bNewton);
-
+        add(bInfo);
     }
 }
