@@ -56,6 +56,11 @@ public class Uniforme extends BaseFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // a, b -> intervalo que a função vai atuar
+        // d -> delta a ser somado
+        // fx -> valor da função em x
+        // fxk -> valor da função quando xk = x + d
+        
         StringBuilder out = new StringBuilder();
         double a,b,d = 0,xk;
         double fx = 0;
@@ -64,26 +69,38 @@ public class Uniforme extends BaseFrame implements ActionListener {
         int precision = 5;
         int k;
         Expression f = new Expression(txFunc.getText());
+        // Bloco try valida se os inputs estão corretos para o cálculo
         try{
+            // valores das caixas de texto
             a = Double.parseDouble(txA.getText());
             b = Double.parseDouble(txB.getText());
             d = Double.parseDouble(txD.getText());
             precision = Integer.parseInt(txP.getText());
+
+            // Testa com um valor do intervalo se a função e válida
             f.with("x", new BigDecimal(a));
             f.eval();
+
+            if(b < a){
+                throw new Exception();
+            }
         }catch(NumberFormatException err){
             outputArea.setText("Digite valores válidos (numéricos) nos campos apropriados!");
             return;
         }catch(ExpressionException err){
+            // Função não validadada pelo evalex
             outputArea.setText("Digite uma função válida!!");
+            return;
+        }catch(Exception err){
+            outputArea.setText("Digite um intervalo [a b] correto!");
             return;
         }
         x = a;
         f.with("x", new BigDecimal(x));
         fx = f.eval().doubleValue();
         k = 0;
-        double xr = 0;
-        double fxr = 0;
+        double xr = 0; // Variável para o refinamento
+        double fxr = 0; // Variável para o refinamento
         boolean fflag = true;
         // i = 0 -> normal
         // i = 1 -> refinamento
@@ -92,20 +109,28 @@ public class Uniforme extends BaseFrame implements ActionListener {
             do{
                 k += 1;
                 xk = x + d;
-                fxk = f.with("x", new BigDecimal(xk)).setPrecision(7).eval().doubleValue();
+                //  Aqui pegamos o valor em double ao invés do BigDecimal padrão.
+                //  Isso facilita operações entre as variáveis, mas
+                // não permite que tenhamos precisão de casas decimais. ->
+                fxk = f.with("x", new BigDecimal(xk)).eval().doubleValue();
+                //  Por isso na saída convertemos para BigDecimal onde podemos escolher
+                // a precisão e o método de arredondadmento.
                 out.append("K = "+k+"\n\tx = "+BigDecimal.valueOf(x).setScale(precision, RoundingMode.HALF_UP)+"\n\txk = "+BigDecimal.valueOf(xk).setScale(precision, RoundingMode.HALF_UP)+"\n\tf(xk) = "+BigDecimal.valueOf(fxk).setScale(precision, RoundingMode.HALF_UP)+"\n");
                 if(xk > b){
                     out.append("(xk > b) Intervalo ultrapassado\n");
                 }
                 else if(fxk < fx) {
                     out.append("x <- xk\n- - -\n\n");
-                    xr = x;
+                    // Salvando a interação k para eventual refinamento
+                    xr = x; 
                     fxr = fx;
+                    // Colocando os valores para a próxima interação (k+1)
                     x = xk;
                     fx = fxk;
-                }else fflag = false;
+                }else fflag = false; // Não botei o teste no while porque o valor de fx já foi sobreescrito
             }while(xk < b && fflag);
             if(i == 0){
+                // Se for a primeira interação, fazer refinamento:
                 d = d/10;
                 x = xr;
                 fx = fxr;
