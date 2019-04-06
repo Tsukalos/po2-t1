@@ -30,8 +30,8 @@ class BaseFrame extends JFrame {
         down.setLayout(new BoxLayout(down, BoxLayout.Y_AXIS));
         down.add(scroll);
         up.setLayout(new BoxLayout(up, BoxLayout.X_AXIS));
-        upLeft.setLayout(new BoxLayout(upLeft, BoxLayout.Y_AXIS));
-        upRight.setLayout(new BoxLayout(upRight, BoxLayout.Y_AXIS));
+        upLeft.setLayout(new BoxLayout(upLeft, BoxLayout.PAGE_AXIS));
+        upRight.setLayout(new BoxLayout(upRight, BoxLayout.PAGE_AXIS));
         up.add(upLeft);
         up.add(Box.createRigidArea(new Dimension(20,0)));
         up.add(upRight);

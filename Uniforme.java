@@ -1,3 +1,9 @@
+import java.awt.Component;
+import java.awt.Dimension;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
+import java.util.List.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
@@ -19,12 +25,19 @@ public class Uniforme extends BaseFrame implements ActionListener {
 
     Uniforme() {
         super("Busca Uniforme");
-
-        upLeft.add(new JLabel("Função"));
-        upLeft.add(new JLabel("Limite inferior"));
-        upLeft.add(new JLabel("Limite Superior"));
-        upLeft.add(new JLabel("Delta"));
-        upLeft.add(new JLabel("Precisão (int)"));
+        Vector<JLabel> lL;
+        lL = new Vector<JLabel>(); 
+        JLabel a;
+        upLeft.add(a = new JLabel("Função"));
+        lL.add(a);
+        upLeft.add(a = new JLabel("Limite inferior"));
+        lL.add(a);
+        upLeft.add(a = new JLabel("Limite Superior"));
+        lL.add(a);
+        upLeft.add(a = new JLabel("Delta"));
+        lL.add(a);
+        upLeft.add(a = new JLabel("Precisão (int)"));
+        lL.add(a);
 
         txFunc = new JTextField(10);
         txA = new JTextField();
@@ -48,7 +61,12 @@ public class Uniforme extends BaseFrame implements ActionListener {
         txB.setMaximumSize(txFunc.getPreferredSize());
         txD.setMaximumSize(txFunc.getPreferredSize());
         txP.setMaximumSize(txFunc.getPreferredSize());
-
+        int h = txFunc.getPreferredSize().height;
+        for (JLabel l : lL) {
+            l.setAlignmentY(Component.TOP_ALIGNMENT);
+           // l.setText("a");
+           // l.setSize(txFunc.getPreferredSize());
+        }
         setSize(400, 500);
         setVisible(true);
     }
