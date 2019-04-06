@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.HashMap;
@@ -13,13 +16,14 @@ class BaseFrame extends JFrame {
 
     BaseFrame(String title) {
         super(title);
-        setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        // setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
         up = new JPanel();
         upLeft = new JPanel();
         upRight = new JPanel();
         down = new JPanel();
         middle = new JPanel();
-        middle.setLayout(new BoxLayout(middle, BoxLayout.X_AXIS));
+        // middle.setLayout(new BoxLayout(middle, BoxLayout.X_AXIS));
         outputArea = new JTextArea();
         outputArea.setEditable(false);
         outputArea.setText("Output:\n");
@@ -29,14 +33,16 @@ class BaseFrame extends JFrame {
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         down.setLayout(new BoxLayout(down, BoxLayout.Y_AXIS));
         down.add(scroll);
-        up.setLayout(new FlowLayout(FlowLayout.CENTER,10,5));
+        //scroll.setPreferredSize(scroll.getParent().getPreferredSize());
+        up.setLayout(new WrapLayout());
         // up.add(upLeft);
         // up.add(Box.createRigidArea(new Dimension(20,0)));
         // up.add(upRight);
 
-        add(up);
-        add(middle);
-        add(down);
+        add(up, BorderLayout.NORTH);
+        add(middle, BorderLayout.SOUTH);
+        // add(middle);
+        add(down, BorderLayout.CENTER);
         setSize(400, 300);
         // setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
