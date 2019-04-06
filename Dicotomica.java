@@ -97,26 +97,19 @@ public class Dicotomica extends BaseFrame implements ActionListener{
             return;
         }
         
-        if(Math.abs(b-a) < eps){ //intervalo menor que o limite de conversao
-			outputArea.setText("Valor otimo= "+(a+b)/2+"\n");
-		}
-		else{
-			do{
-				xk=(b-a)/2; //define ponto medio para a iteracao
-				w = xk+d; //soma delta do ponto medio
-				z = xk-d; //subtrai delta do ponto medio
-				
-				fw = f.with("x", new BigDecimal(w)).eval().doubleValue(); //guarda valor de f(w)
-				fz = f.with("x", new BigDecimal(z)).eval().doubleValue(); //guarda valor de f(z)
-				if(fw >= fz){ //f(w) maior ou igual que f(z)
-					a = w; //ajuste do limite de atuacao - diminui por baixo
-				}
-				else{ //f(z) maior que f(w)
-					b = z; //a juste do limite de atuacao - diminui por cima
-				}
-				
-			}while(Math.abs(b-a)>=eps); //enquanto intervalo for maior que o limite de conversao
-			//outputArea.setText("Testando5");
+        while(Math.abs(b-a)>=eps){ //enquanto intervalo for maior que o limite de conversao
+			xk=(a+b)/2; //define ponto medio para a iteracao
+			w = xk-d; //subtrai delta do ponto medio
+			z = xk+d; //soma delta do ponto medio
+			fw = f.with("x", new BigDecimal(w)).eval().doubleValue(); //guarda valor de f(w)
+			fz = f.with("x", new BigDecimal(z)).eval().doubleValue(); //guarda valor de f(z)
+			
+			if(fw >= fz){ //f(w) maior ou igual que f(z)
+				a = w; //ajuste do limite de atuacao - diminui por baixo
+			}
+			else{ //f(z) maior que f(w)
+				b = z; //ajuste do limite de atuacao - diminui por cima
+			}
 		}
 		outputArea.setText("Valor otimo = "+(a+b)/2+"\n");
     }
