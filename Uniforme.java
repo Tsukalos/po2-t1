@@ -1,10 +1,4 @@
-import java.awt.Component;
-import java.awt.Dimension;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
-import java.util.List.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
@@ -17,26 +11,21 @@ import com.udojava.evalex.Expression.ExpressionException;
 
 public class Uniforme extends BaseFrame implements ActionListener {
 
-    JTextField txFunc;
-    JTextField txA;
-    JTextField txB;
-    JTextField txD;
-    JTextField txP;
     JButton calc;
     HashMap<String, JTextField> map;
+
     Uniforme() {
         super("Busca Uniforme");
-        map = SetLabelsFields(new String[] {"Função","Limite inferior","Limite superior","Delta","Precisão"});
+        map = SetLabelsFields(new String[] { "Função", "Limite inferior", "Limite superior", "Delta", "Precisão" });
         calc = new JButton("Calcular");
 
         middle.add(calc);
 
         calc.addActionListener(this);
 
-        setSize(400, 500);
+        setSize(400, 300);
         setVisible(true);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -44,9 +33,9 @@ public class Uniforme extends BaseFrame implements ActionListener {
         // d -> delta a ser somado
         // fx -> valor da função em x
         // fxk -> valor da função quando xk = x + d
-        
+
         StringBuilder out = new StringBuilder();
-        double a,b,d = 0,xk;
+        double a, b, d = 0, xk;
         double fx = 0;
         double fxk = 0;
         double x = 0;
@@ -54,7 +43,7 @@ public class Uniforme extends BaseFrame implements ActionListener {
         int k;
         Expression f = new Expression(map.get("Função").getText());
         // Bloco try valida se os inputs estão corretos para o cálculo
-        try{
+        try {
             // valores das caixas de texto
             a = Double.parseDouble(map.get("Limite inferior").getText());
             b = Double.parseDouble(map.get("Limite superior").getText());
@@ -65,18 +54,19 @@ public class Uniforme extends BaseFrame implements ActionListener {
             f.with("x", new BigDecimal(a));
             f.eval();
 
-            if(b < a){
-                throw new Exception();
+            if (b < a) {
+                // Realiza um throw genérico com uma mensagem apropriada.
+                throw new Exception("Digite um intervalo [a b] correto!");
             }
-        }catch(NumberFormatException err){
+        } catch (NumberFormatException err) {
             outputArea.setText("Digite valores válidos (numéricos) nos campos apropriados!");
             return;
-        }catch(ExpressionException err){
+        } catch (ExpressionException err) {
             // Função não validadada pelo evalex
             outputArea.setText("Digite uma função válida!!");
             return;
-        }catch(Exception err){
-            outputArea.setText("Digite um intervalo [a b] correto!");
+        } catch (Exception err) {
+            outputArea.setText(err.getMessage());
             return;
         }
         x = a;
@@ -88,41 +78,42 @@ public class Uniforme extends BaseFrame implements ActionListener {
         boolean fflag = true;
         // i = 0 -> normal
         // i = 1 -> refinamento
-        for(int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             fflag = true;
-            do{
+            do {
                 k += 1;
                 xk = x + d;
-                //  Aqui pegamos o valor em double ao invés do BigDecimal padrão.
-                //  Isso facilita operações entre as variáveis, mas
+                // Aqui pegamos o valor em double ao invés do BigDecimal padrão.
+                // Isso facilita operações entre as variáveis, mas
                 // não permite que tenhamos precisão de casas decimais. ->
                 fxk = f.with("x", new BigDecimal(xk)).eval().doubleValue();
-                //  Por isso na saída convertemos para BigDecimal onde podemos escolher
+                // Por isso na saída convertemos para BigDecimal onde podemos escolher
                 // a precisão e o método de arredondadmento.
-                out.append("K = "+k+"\n\tx = "+BigDecimal.valueOf(x).setScale(precision, RoundingMode.HALF_UP)+"\n\txk = "+BigDecimal.valueOf(xk).setScale(precision, RoundingMode.HALF_UP)+"\n\tf(xk) = "+BigDecimal.valueOf(fxk).setScale(precision, RoundingMode.HALF_UP)+"\n");
-                if(xk > b){
+                out.append("K = " + k + "\n\tx = " + BigDecimal.valueOf(x).setScale(precision, RoundingMode.HALF_UP)
+                        + "\n\txk = " + BigDecimal.valueOf(xk).setScale(precision, RoundingMode.HALF_UP)
+                        + "\n\tf(xk) = " + BigDecimal.valueOf(fxk).setScale(precision, RoundingMode.HALF_UP) + "\n");
+                if (xk > b) {
                     out.append("(xk > b) Intervalo ultrapassado\n");
-                }
-                else if(fxk < fx) {
+                } else if (fxk < fx) {
                     out.append("x <- xk\n- - -\n\n");
                     // Salvando a interação k para eventual refinamento
-                    xr = x; 
+                    xr = x;
                     fxr = fx;
                     // Colocando os valores para a próxima interação (k+1)
                     x = xk;
                     fx = fxk;
-                }else fflag = false; // Não botei o teste no while porque o valor de fx já foi sobreescrito
-            }while(xk < b && fflag);
-            if(i == 0){
+                } else
+                    fflag = false; // Não botei o teste no while porque o valor de fx já foi sobreescrito
+            } while (xk < b && fflag);
+            if (i == 0) {
                 // Se for a primeira interação, fazer refinamento:
-                d = d/10;
+                d = d / 10;
                 x = xr;
                 fx = fxr;
             }
         }
-        out.append("Valor ótimo = "+BigDecimal.valueOf(x).setScale(precision, RoundingMode.HALF_UP)+"\n");
-        
+        out.append("Valor ótimo = " + BigDecimal.valueOf(x).setScale(precision, RoundingMode.HALF_UP) + "\n");
+
         outputArea.setText(out.toString());
     }
 }
-
