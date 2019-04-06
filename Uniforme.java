@@ -1,6 +1,7 @@
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import java.util.List.*;
@@ -22,51 +23,16 @@ public class Uniforme extends BaseFrame implements ActionListener {
     JTextField txD;
     JTextField txP;
     JButton calc;
-
+    HashMap<String, JTextField> map;
     Uniforme() {
         super("Busca Uniforme");
-        Vector<JLabel> lL;
-        lL = new Vector<JLabel>(); 
-        JLabel a;
-        upLeft.add(a = new JLabel("Função"));
-        lL.add(a);
-        upLeft.add(a = new JLabel("Limite inferior"));
-        lL.add(a);
-        upLeft.add(a = new JLabel("Limite Superior"));
-        lL.add(a);
-        upLeft.add(a = new JLabel("Delta"));
-        lL.add(a);
-        upLeft.add(a = new JLabel("Precisão (int)"));
-        lL.add(a);
-
-        txFunc = new JTextField(10);
-        txA = new JTextField();
-        txB = new JTextField();
-        txD = new JTextField();
-        txP = new JTextField();
-
+        map = SetLabelsFields(new String[] {"Função","Limite inferior","Limite superior","Delta","Precisão"});
         calc = new JButton("Calcular");
 
-        upRight.add(txFunc);
-        upRight.add(txA);
-        upRight.add(txB);
-        upRight.add(txD);
-        upRight.add(txP);
         middle.add(calc);
 
         calc.addActionListener(this);
 
-        txFunc.setMaximumSize(txFunc.getPreferredSize());
-        txA.setMaximumSize(txFunc.getPreferredSize());
-        txB.setMaximumSize(txFunc.getPreferredSize());
-        txD.setMaximumSize(txFunc.getPreferredSize());
-        txP.setMaximumSize(txFunc.getPreferredSize());
-        int h = txFunc.getPreferredSize().height;
-        for (JLabel l : lL) {
-            l.setAlignmentY(Component.TOP_ALIGNMENT);
-           // l.setText("a");
-           // l.setSize(txFunc.getPreferredSize());
-        }
         setSize(400, 500);
         setVisible(true);
     }
@@ -86,14 +52,14 @@ public class Uniforme extends BaseFrame implements ActionListener {
         double x = 0;
         int precision = 5;
         int k;
-        Expression f = new Expression(txFunc.getText());
+        Expression f = new Expression(map.get("Função").getText());
         // Bloco try valida se os inputs estão corretos para o cálculo
         try{
             // valores das caixas de texto
-            a = Double.parseDouble(txA.getText());
-            b = Double.parseDouble(txB.getText());
-            d = Double.parseDouble(txD.getText());
-            precision = Integer.parseInt(txP.getText());
+            a = Double.parseDouble(map.get("Limite inferior").getText());
+            b = Double.parseDouble(map.get("Limite superior").getText());
+            d = Double.parseDouble(map.get("Delta").getText());
+            precision = Integer.parseInt(map.get("Precisão").getText());
 
             // Testa com um valor do intervalo se a função e válida
             f.with("x", new BigDecimal(a));
