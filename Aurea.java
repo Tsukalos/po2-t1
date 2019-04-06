@@ -16,6 +16,7 @@ public class Aurea extends BaseFrame implements ActionListener {
 
     Aurea() {
         super("Seção Áurea");
+        // TODO: Comentar código
         map = SetLabelsFields(new String[] { "Função", "Limite inferior", "Limite superior", "Incerteza", "Precisão" });
         calc = new JButton("Calcular");
         calc.addActionListener(this);
