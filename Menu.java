@@ -57,7 +57,7 @@ public class Menu extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.print("a");
+                new Fibonacci();
             }
         });
         bBissecao.addActionListener(new ActionListener() {
