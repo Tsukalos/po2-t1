@@ -38,6 +38,9 @@ public class Aurea extends BaseFrame implements ActionListener {
             eps = Double.parseDouble(map.get("Incerteza").getText());
             p = Integer.parseInt(map.get("Precisão").getText());
             f.with("x", new BigDecimal(a)).eval();
+            if(b < a){
+                throw new Exception("Digite um intervalo [a b] correto!");
+            }
         } catch (NumberFormatException err) {
             outputArea.setText("Digite valores válidos (numéricos) nos campos apropriados!");
             return;
