@@ -1,9 +1,7 @@
 import javax.swing.*;
-
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.math.*;
 import java.util.HashMap;
 
 class BaseFrame extends JFrame {
@@ -63,4 +61,8 @@ class BaseFrame extends JFrame {
         }
         return map;
     }
+
+    BigDecimal fout(double v, int precision){
+        return BigDecimal.valueOf(v).setScale(precision, RoundingMode.HALF_UP);
+     }
 }

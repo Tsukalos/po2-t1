@@ -94,10 +94,5 @@ public class Aurea extends BaseFrame implements ActionListener {
         out.append("\tValor ótimo = " + fout(x,p));
 
         outputArea.setText(out.toString());
-
-    }
-
-    BigDecimal fout(double v, int precision){
-       return BigDecimal.valueOf(v).setScale(precision, RoundingMode.HALF_UP);
     }
 }
