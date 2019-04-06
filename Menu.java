@@ -43,7 +43,7 @@ public class Menu extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                System.out.print("a");
+                new Dicotomica();
             }
         });
         bSecaoAurea.addActionListener(new ActionListener() {
