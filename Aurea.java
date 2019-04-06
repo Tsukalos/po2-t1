@@ -16,7 +16,10 @@ public class Aurea extends BaseFrame implements ActionListener {
 
     Aurea() {
         super("Seção Áurea");
-        // TODO: Comentar código
+        // Esse map guarda os JTextFields que são gerados em pares com JLabels feitos com as strings
+        //  desse vetor.
+        // Se queremos pegar o JTextField equivalente a um campo label
+        //  usamos JTextField f = map.get("Função"); para pegar o campo equivalente.
         map = SetLabelsFields(new String[] { "Função", "Limite inferior", "Limite superior", "Incerteza", "Precisão" });
         calc = new JButton("Calcular");
         calc.addActionListener(this);
