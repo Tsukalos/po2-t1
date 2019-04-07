@@ -16,10 +16,11 @@ public class Aurea extends BaseFrame implements ActionListener {
 
     Aurea() {
         super("Seção Áurea");
-        // Esse map guarda os JTextFields que são gerados em pares com JLabels feitos com as strings
-        //  desse vetor.
+        // Esse map guarda os JTextFields que são gerados em pares com JLabels feitos
+        // com as strings
+        // desse vetor.
         // Se queremos pegar o JTextField equivalente a um campo label
-        //  usamos JTextField f = map.get("Função"); para pegar o campo equivalente.
+        // usamos JTextField f = map.get("Função"); para pegar o campo equivalente.
         map = SetLabelsFields(new String[] { "Função", "Limite inferior", "Limite superior", "Incerteza", "Precisão" });
         calc = new JButton("Calcular");
         calc.addActionListener(this);
@@ -42,7 +43,7 @@ public class Aurea extends BaseFrame implements ActionListener {
             eps = Double.parseDouble(map.get("Incerteza").getText());
             p = Integer.parseInt(map.get("Precisão").getText());
             f.with("x", new BigDecimal(a)).eval();
-            if(b < a){
+            if (b < a) {
                 throw new Exception("Digite um intervalo [a b] correto!");
             }
         } catch (NumberFormatException err) {
@@ -62,9 +63,9 @@ public class Aurea extends BaseFrame implements ActionListener {
         flambda = f.with("x", new BigDecimal(lambda)).eval().doubleValue();
         int k = 1;
         while (Math.abs(b - a) > eps) {
-            out.append("K = "+fout(k,p)+"\n\ta = "+fout(a,p)+"\n\tb = "+fout(b,p)+"\n");
-            out.append("\tmi = "+fout(mi,p)+"\n\tlambda = "+fout(lambda,p)+"\n");
-            out.append("\tf(mi) = "+fout(fmi,p)+"\n\tf(lambda) = "+fout(flambda,p)+"\n-\n");
+            out.append("K = " + fout(k, p) + "\n\ta = " + fout(a, p) + "\n\tb = " + fout(b, p) + "\n");
+            out.append("\tmi = " + fout(mi, p) + "\n\tlambda = " + fout(lambda, p) + "\n");
+            out.append("\tf(mi) = " + fout(fmi, p) + "\n\tf(lambda) = " + fout(flambda, p) + "\n-\n");
             if (fmi > flambda) {
                 out.append("\n f(mi) > f(lambda) então:\n");
                 a = mi;
@@ -90,8 +91,8 @@ public class Aurea extends BaseFrame implements ActionListener {
             out.append("- - -\n");
         }
         double x = (a + b) / 2;
-        out.append("Interações: "+k+"\nx* <- (a + b)/2\n");
-        out.append("\tValor ótimo = " + fout(x,p));
+        out.append("Interações: " + k + "\nx* <- (a + b)/2\n");
+        out.append("\tValor ótimo = " + fout(x, p));
 
         outputArea.setText(out.toString());
     }

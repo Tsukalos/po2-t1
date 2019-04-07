@@ -31,7 +31,7 @@ class BaseFrame extends JFrame {
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         down.setLayout(new BoxLayout(down, BoxLayout.Y_AXIS));
         down.add(scroll);
-        //scroll.setPreferredSize(scroll.getParent().getPreferredSize());
+        // scroll.setPreferredSize(scroll.getParent().getPreferredSize());
         up.setLayout(new WrapLayout());
         // up.add(upLeft);
         // up.add(Box.createRigidArea(new Dimension(20,0)));
@@ -41,7 +41,7 @@ class BaseFrame extends JFrame {
         add(middle, BorderLayout.SOUTH);
         // add(middle);
         add(down, BorderLayout.CENTER);
-        setSize(400, 300);
+        setSize(400, 500);
         // setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -49,11 +49,11 @@ class BaseFrame extends JFrame {
         HashMap<String, JTextField> map = new HashMap<String, JTextField>(labels.length);
         for (String s : labels) {
             JPanel a = new JPanel();
-            a.setLayout(new GridLayout(1,2,5,0));
+            a.setLayout(new GridLayout(1, 2, 5, 0));
             JTextField b = new JTextField(10);
             b.setMaximumSize(b.getPreferredSize());
             JLabel l = new JLabel(s);
-            
+
             a.add(l);
             a.add(b);
             up.add(a);
@@ -62,7 +62,7 @@ class BaseFrame extends JFrame {
         return map;
     }
 
-    BigDecimal fout(double v, int precision){
+    BigDecimal fout(double v, int precision) {
         return BigDecimal.valueOf(v).setScale(precision, RoundingMode.HALF_UP);
-     }
+    }
 }

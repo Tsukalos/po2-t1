@@ -10,28 +10,28 @@ import com.udojava.evalex.*;
 import com.udojava.evalex.Expression.ExpressionException;
 
 public class Bissecao extends BaseFrame implements ActionListener {
-	HashMap<String, JTextField> map;
+    HashMap<String, JTextField> map;
     JButton calc;
-    
-    Bissecao(){
-		super("Método da Bisseção");
-		map = SetLabelsFields(new String[] {"Função","Limite inferior", "Limite superior", "Incerteza", "Precisão"});
-		calc = new JButton("Calcular");
+
+    Bissecao() {
+        super("Método da Bisseção");
+        map = SetLabelsFields(new String[] { "Função", "Limite inferior", "Limite superior", "Incerteza", "Precisão" });
+        calc = new JButton("Calcular");
         calc.addActionListener(this);
         middle.add(calc);
         setVisible(true);
-	}
-	
-	@Override
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
-		StringBuilder out = new StringBuilder();
-		double a, b, x=0, k, eps;
-		int p=5, cont_k=0;
-		//k -> numero maximo de iteracoes
-		//x -> ponto medio entre o intervalo de atuacao
-		
-		Expression f = new Expression(map.get("Função").getText());
-		try{
+        StringBuilder out = new StringBuilder();
+        double a, b, x = 0, k, eps;
+        int p = 5, cont_k = 0;
+        // k -> numero maximo de iteracoes
+        // x -> ponto medio entre o intervalo de atuacao
+
+        Expression f = new Expression(map.get("Função").getText());
+        try {
             a = Double.parseDouble(map.get("Limite inferior").getText());
             b = Double.parseDouble(map.get("Limite superior").getText());
             eps = Double.parseDouble(map.get("Incerteza").getText());
@@ -39,41 +39,42 @@ public class Bissecao extends BaseFrame implements ActionListener {
             // Testa com um valor do intervalo se a função e válida
             f.with("x", new BigDecimal(a));
             f.eval();
-			if(b < a){
+            if (b < a) {
                 throw new Exception();
             }
-        }catch(NumberFormatException err){
+        } catch (NumberFormatException err) {
             outputArea.setText("Digite valores válidos (numéricos) nos campos apropriados!");
             return;
-        }catch(ExpressionException err){
+        } catch (ExpressionException err) {
             // Função não validadada pelo evalex
             outputArea.setText("Digite uma função válida!!");
             return;
-        }catch(Exception err){
+        } catch (Exception err) {
             outputArea.setText("Digite um intervalo [a b] correto!");
             return;
         }
-        k = Math.ceil(Log.log(eps/(b-a),0.5)); //quantidade maxima de iteracoes - com erro fica retornando 0
-		out.append("Quantidade maxima de iteracoes="+k+"\n");
-        x = (a+b)/2;
-        cont_k=1;
-        out.append("K="+cont_k+"\n\ta="+a+"\n\tb="+b+"\n\tx="+x+"\n\tder_pri="+Derivada.Primeira(f,x,eps)+"\n");
-        while(cont_k<= k && Derivada.Primeira(f,x,eps)!=0){
-			if(Derivada.Primeira(f,x,p) >0){
-				out.append("\n f'(x) > 0 então:\n");
+        k = Math.ceil(Log.log(eps / (b - a), 0.5)); // quantidade maxima de iteracoes - com erro fica retornando 0
+        out.append("Quantidade maxima de iteracoes=" + k + "\n");
+        x = (a + b) / 2;
+        cont_k = 1;
+        out.append("K=" + cont_k + "\n\ta=" + fout(a, p) + "\n\tb=" + fout(b, p) + "\n\tx=" + fout(x, p)
+                + "\n\tder_pri=" + fout(Derivada.Primeira(f, x, eps), p) + "\n");
+        while (cont_k <= k && Derivada.Primeira(f, x, eps) != 0) {
+            if (Derivada.Primeira(f, x, p) > 0) {
+                out.append("\n f'(x) > 0 então:\n");
                 out.append("\n b <- x\n");
-				b = x;
-			}
-			else{
-				out.append("\n f'(x) < 0 então:\n");
+                b = x;
+            } else {
+                out.append("\n f'(x) < 0 então:\n");
                 out.append("\n a <- x\n");
-				a = x;
-			}
-			x = (a+b)/2;
-			cont_k++;
-			out.append("\nK="+cont_k+"\n\ta="+a+"\n\tb="+b+"\n\tx="+x+"\n\tder_pri="+Derivada.Primeira(f,x,eps)+"\n");
-		}
-		out.append("\tValor ótimo = " + x);
-		outputArea.setText(out.toString());
-	}
+                a = x;
+            }
+            x = (a + b) / 2;
+            cont_k++;
+            out.append("\nK=" + cont_k + "\n\ta=" + fout(a, p) + "\n\tb=" + fout(b, p) + "\n\tx=" + fout(x, p)
+                    + "\n\tder_pri=" + fout(Derivada.Primeira(f, x, eps), p) + "\n");
+        }
+        out.append("\tValor ótimo = " + fout(x, p));
+        outputArea.setText(out.toString());
+    }
 }

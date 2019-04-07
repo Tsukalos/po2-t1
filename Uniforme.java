@@ -23,7 +23,6 @@ public class Uniforme extends BaseFrame implements ActionListener {
 
         calc.addActionListener(this);
 
-        setSize(400, 300);
         setVisible(true);
     }
 
