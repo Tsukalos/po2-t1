@@ -50,23 +50,22 @@ public class Newton extends BaseFrame implements ActionListener {
         }
         k=1;
 		x = a; //x0 = a;
-		prox = x - (Derivada.Primeira(f,x,p)/Derivada.Segunda(f,x,p)); 
+		prox = x - (Derivada.Primeira(f,x,eps)/Derivada.Segunda(f,x,eps)); 
 		if(prox>1){ //verificacao de max{x(k+1),1} para condicao de parada
 			maior = prox;
 		}
-		out.append("K= "+k+"\n\tx="+x+"\n\tx+1="+prox+"\n\tder_pri="+Derivada.Primeira(f,x,p)+"\n\tder_seg="+Derivada.Segunda(f,x,p)+"\n"); //verificacao
-		while(Math.abs(Derivada.Primeira(f,x,p))> eps && (Math.abs(prox-x)/ maior)> eps){ //condicoes de parada
+		out.append("K= "+k+"\n\tx="+x+"\n\tx+1="+prox+"\n\tder_pri="+Derivada.Primeira(f,x,eps)+"\n\tder_seg="+Derivada.Segunda(f,x,p)+"\n"); //verificacao
+		while(Math.abs(Derivada.Primeira(f,x,eps))> eps && (Math.abs(prox-x)/ maior)> eps){ //condicoes de parada
 			k++;
 			x = prox;
-			prox = x - (Derivada.Primeira(f,x,p)/Derivada.Segunda(f,x,p));
-			out.append("K= "+k+"\n\tx="+x+"\n\tx+1="+prox+"\n\tder_pri="+Derivada.Primeira(f,x,p)+"\n\tder_seg="+Derivada.Segunda(f,x,p)+"\n"); //verificacao
+			prox = x - (Derivada.Primeira(f,x,eps)/Derivada.Segunda(f,x,eps));
+			out.append("K= "+k+"\n\tx="+x+"\n\tx+1="+prox+"\n\tder_pri="+Derivada.Primeira(f,x,eps)+"\n\tder_seg="+Derivada.Segunda(f,x,eps)+"\n"); //verificacao
 			if(prox>1){ 
 				maior = prox;
 			}
 		}
-		out.append("\n\n\tCondicao de Parada 1= " + Math.abs(Derivada.Primeira(f,x,p)));
-		out.append("\n\tCondicao de Parada 2= " + (Math.abs(prox-x)/ maior));		
-		out.append("\n\tValor ótimo = " + prox);
+			
+		out.append("\n\n\tValor ótimo = " + prox);
 		outputArea.setText(out.toString());
 	}
 }

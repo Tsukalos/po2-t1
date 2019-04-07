@@ -15,7 +15,7 @@ public class Info extends BaseFrame {
     Info(){
 		super("Informações");
         setVisible(true);
-        outputArea.setText("Demais infos");
+        outputArea.setText("\tT1 - PESQUISA OPERACIONAL II\n\tPROF. MARCIA A. ZANOLI MEIRA E SILVA\n\tDesenvolvido pelos aluno:\n\tPedro Lamkowski \t RA: \n\tBruna Lika Tamake \t RA: 171024427\n");
 	}
 	
 }

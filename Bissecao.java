@@ -53,12 +53,12 @@ public class Bissecao extends BaseFrame implements ActionListener {
             outputArea.setText("Digite um intervalo [a b] correto!");
             return;
         }
-        k = Log.log(eps/(b-a),(double)(1/2)); //quantidade maxima de iteracoes - com erro fica retornando 0
+        k = Math.ceil(Log.log(eps/(b-a),0.5)); //quantidade maxima de iteracoes - com erro fica retornando 0
 		out.append("Quantidade maxima de iteracoes="+k+"\n");
         x = (a+b)/2;
         cont_k=1;
-        out.append("K="+cont_k+"\n\ta="+a+"\n\tb="+b+"\n\tx="+x+"\n\tder_pri="+Derivada.Primeira(f,x,p)+"\n");
-        while(cont_k<= k && Derivada.Primeira(f,x,p)!=0){
+        out.append("K="+cont_k+"\n\ta="+a+"\n\tb="+b+"\n\tx="+x+"\n\tder_pri="+Derivada.Primeira(f,x,eps)+"\n");
+        while(cont_k<= k && Derivada.Primeira(f,x,eps)!=0){
 			if(Derivada.Primeira(f,x,p) >0){
 				out.append("\n f'(x) > 0 então:\n");
                 out.append("\n b <- x\n");
@@ -71,7 +71,7 @@ public class Bissecao extends BaseFrame implements ActionListener {
 			}
 			x = (a+b)/2;
 			cont_k++;
-			out.append("\nK="+cont_k+"\n\ta="+a+"\n\tb="+b+"\n\tx="+x+"\n\tder_pri="+Derivada.Primeira(f,x,p)+"\n");
+			out.append("\nK="+cont_k+"\n\ta="+a+"\n\tb="+b+"\n\tx="+x+"\n\tder_pri="+Derivada.Primeira(f,x,eps)+"\n");
 		}
 		out.append("\tValor ótimo = " + x);
 		outputArea.setText(out.toString());

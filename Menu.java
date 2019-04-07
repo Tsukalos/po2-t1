@@ -71,8 +71,8 @@ public class Menu extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                //new Newton();
-                System.out.println("a");
+                new Newton();
+                
             }
         });
         bInfo.addActionListener(new ActionListener(){
