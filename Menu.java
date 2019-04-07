@@ -57,7 +57,7 @@ public class Menu extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.print("a");
+                new Newton();
             }
         });
         bBissecao.addActionListener(new ActionListener() {
@@ -71,14 +71,15 @@ public class Menu extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Newton();
+                //new Newton();
+                System.out.println("a");
             }
         });
         bInfo.addActionListener(new ActionListener(){
         
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                System.out.print("a");
+                new Info();
             }
         });
         add(bBuscaUniforme);
