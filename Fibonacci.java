@@ -1,26 +1,19 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.*;
-
+import java.math.*;
 import com.udojava.evalex.*;
 import com.udojava.evalex.Expression.ExpressionException;
 
-public class Aurea extends BaseFrame implements ActionListener {
-    HashMap<String, JTextField> map;
+public class Fibonacci extends BaseFrame implements ActionListener {
     JButton calc;
-    final double alpha = (Math.sqrt(5) - 1) / 2;
+    HashMap<String, JTextField> map;
 
-    Aurea() {
-        super("Seção Áurea");
-        // Esse map guarda os JTextFields que são gerados em pares com JLabels feitos
-        // com as strings
-        // desse vetor.
-        // Se queremos pegar o JTextField equivalente a um campo label
-        // usamos JTextField f = map.get("Função"); para pegar o campo equivalente.
+    Fibonacci() {
+        super("Busca de Fibonacci");
         map = SetLabelsFields(new String[] { "Função", "Limite inferior", "Limite superior", "Incerteza", "Precisão" });
         calc = new JButton("Calcular");
         calc.addActionListener(this);
@@ -36,6 +29,7 @@ public class Aurea extends BaseFrame implements ActionListener {
         double mi, lambda;
         double fmi, flambda;
         int p = 5;
+        Vector<Integer> fib = new Vector<Integer>();
         Expression f = new Expression(map.get("Função").getText());
         try {
             a = Double.parseDouble(map.get("Limite inferior").getText());
@@ -56,13 +50,30 @@ public class Aurea extends BaseFrame implements ActionListener {
             outputArea.setText(err.getMessage());
             return;
         }
+        // Gerando sequencia de fibonacci
+        double fiblim = (b - a) / eps;
+        fib.add(1);
+        fib.add(1);
+        int n = 1;
 
-        mi = a + (1 - alpha) * (b - a);
-        lambda = a + alpha * (b - a);
+        int current;
+        do {
+            n += 1;
+            current = fib.get(n - 2) + fib.get(n - 1);
+            fib.add(n, current);
+        } while (current <= fiblim);
+
+        int kmax = n - 1;
+        int k = 0;
+        System.out.println(fib.size());
+        System.out.println(n);
+
+        mi = a + (fib.get(n - k - 2) * (b - a) / fib.get(n - k));
+        lambda = a + (fib.get(n - k - 1) * (b - a) / fib.get(n - k));
         fmi = f.with("x", new BigDecimal(mi)).eval().doubleValue();
         flambda = f.with("x", new BigDecimal(lambda)).eval().doubleValue();
-        int k = 1;
-        while (Math.abs(b - a) > eps) {
+
+        while (Math.abs(b - a) > eps && k < kmax) {
             out.append("K = " + k + "\n\ta = " + fout(a, p) + "\n\tb = " + fout(b, p) + "\n");
             out.append("\tmi = " + fout(mi, p) + "\n\tlambda = " + fout(lambda, p) + "\n");
             out.append("\tf(mi) = " + fout(fmi, p) + "\n\tf(lambda) = " + fout(flambda, p) + "\n-\n");
@@ -71,21 +82,21 @@ public class Aurea extends BaseFrame implements ActionListener {
                 a = mi;
                 mi = lambda;
                 fmi = flambda;
-                lambda = a + alpha * (b - a);
+                lambda = a + (fib.get(n - k - 1) * (b - a) / fib.get(n - k));
                 flambda = f.with("x", new BigDecimal(lambda)).eval().doubleValue();
                 out.append("\ta <- mi\n");
                 out.append("\tmi <- lambda\n");
-                out.append("\tlambda <- a + alpha*(b-a)\n");
+                out.append("\tlambda <- a + (fibseq[n-k-1]*(b-a)/fibseq[n-k])\n");
             } else {
                 out.append("\n f(mi) < f(lambda) então:\n");
                 b = lambda;
                 lambda = mi;
                 flambda = fmi;
-                mi = a + (1 - alpha) * (b - a);
+                mi = a + (fib.get(n - k - 2) * (b - a) / fib.get(n - k));
                 fmi = f.with("x", new BigDecimal(mi)).eval().doubleValue();
                 out.append("\tb <- lambda\n");
                 out.append("\tlambda <- mi\n");
-                out.append("\tmi <- a + (1- alpha)*(b-a)\n");
+                out.append("\tmi <- a + (fibseq[n-k-2]*(b-a)/fibseq[n-k]\n");
             }
             k += 1;
             out.append("- - -\n");
@@ -96,4 +107,5 @@ public class Aurea extends BaseFrame implements ActionListener {
 
         outputArea.setText(out.toString());
     }
+
 }
