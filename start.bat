@@ -1,1 +1,1 @@
-java Menu
+java -classpath trab Menu

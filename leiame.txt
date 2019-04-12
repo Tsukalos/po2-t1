@@ -1,0 +1,8 @@
+T1 - PESQUISA OPERACIONAL II
+PROF. MARCIA A. ZANOLI MEIRA E SILVA
+Desenvolvido pelos alunos:
+Bruna Lika Tamake	RA:171024427
+Pedro Lamkowski dos Santos	RA:171021266
+
+Esse trabalho usa o avaliador de funções EvalEx:
+https://github.com/uklimaschewski/EvalEx
