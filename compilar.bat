@@ -1,0 +1,12 @@
+javac WrapLayout.java
+javac BaseLayout.java
+javac Uniforme.java
+javac Dicotomica.java
+javac Aurea.java
+javac Fibonacci.java
+javac Bissecao.java
+javac Newton.java
+javac Info.java
+javac Derivada.java
+javac Log.java
+javac Menu.java
